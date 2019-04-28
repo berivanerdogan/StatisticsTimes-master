@@ -66,21 +66,58 @@ namespace StatisticsTimes.UI.Areas.Admin.Controllers
             model.PhoneNumber = user.PhoneNumber;
             model.Role = user.Role;
             model.ImagePath = user.ImagePath;
+            model.UserImage = user.UserImage;
+            model.XSmallUserImage = user.XSmallUserImage;
+            model.CruptedUserImage = user.CruptedUserImage;
+        
             return View(model);
         }
         [HttpPost]
-        public ActionResult UpdateAppUser(AppUser user)
+        public ActionResult UpdateAppUser(AppUser user , HttpPostedFileBase Image)
         {
-            //AppUser user = _appUserService.GetByID(model.ID);
-            //user.FirstName = model.FirstName;
-            //user.LastName = model.LastName;
-            //user.ImagePath = model.ImagePath;  //Bu şekilde yazdığında (AppUserDTO model) gönderiyoruz
-            //user.UserName = model.UserName;
-            //user.Password = model.Password;
-            //user.Adress = model.Adress;
-            //user.Email = model.Email;
-            //user.PhoneNumber = model.PhoneNumber;
-            //user.Role = model.Role;
+            List<string> UploadedImagePaths = new List<string>();
+            UploadedImagePaths = ImageUploader.UploadSingleImage(ImageUploader.OriginalImageProfilePath, Image, 1);
+            user.UserImage = UploadedImagePaths[0];
+
+            AppUser update = _appUserService.GetByID(user.ID);
+
+            if (user.UserImage=="0" || user.UserImage=="1" || user.UserImage=="2")
+            {
+                if (update.UserImage==null || update.UserImage==ImageUploader.DefaultProfileImagePath)
+                {
+                    update.UserImage = ImageUploader.DefaultProfileImagePath;
+                    update.XSmallUserImage = ImageUploader.DefaultXSmallProfileImagePath;
+                    update.CruptedUserImage = ImageUploader.DefaultCruptedImagesProfileImagePath;
+
+                }
+                else
+                {
+                    update.UserImage = update.UserImage;
+                    update.XSmallUserImage = update.XSmallUserImage;
+                    update.CruptedUserImage = update.CruptedUserImage;
+
+                }
+
+            }
+            else
+            {
+                update.UserImage = UploadedImagePaths[0];
+                update.XSmallUserImage = UploadedImagePaths[1];
+                update.CruptedUserImage = UploadedImagePaths[2];
+
+
+
+            }
+
+            update.FirstName = user.FirstName;
+            update.LastName = user.LastName;
+            update.ImagePath = user.ImagePath;
+            update.UserName = user.UserName;
+            update.Password = user.Password;
+            update.Adress = user.Adress;
+            update.Email = user.Email;
+            update.PhoneNumber = user.PhoneNumber;
+            update.Role = user.Role;
             _appUserService.Update(user);
             return Redirect("/Admin/AppUser/AppUserList");
         }

@@ -36,5 +36,11 @@ namespace StatisticsTimes.UI.Areas.Admin.Models.DTO
 
         [Required(ErrorMessage = "Please Add Your ImagePath")]
         public string ImagePath { get; set; }
+        [Required(ErrorMessage = "Please Add Your UserImage")]
+        public string UserImage { get; set; }
+        [Required(ErrorMessage = "Please Add Your XSmallUserImage")]
+        public string XSmallUserImage { get; set; }
+        [Required(ErrorMessage = "Please Add Your CruptedUserImage")]
+        public string CruptedUserImage { get; set; }
     }
 }

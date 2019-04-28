@@ -10,9 +10,9 @@ namespace StatisticsTimes.Utility
 {
     public class ImageUploader
     {
-        public static string DefaultProfileImagePath = "~/Contents/Uploads/UserImages/OriginalImages/user_default_image.jpg";
-        public static string DefaultXSmallProfileImagePath = "~/Contents/Uploads/UserImages/XSmallImages/user_default_image.jpg";
-        public static string DefaultCruptedImagesProfileImagePath = "~/Contents/Uploads/UserImages/CruptedImages/user_default_image.jpg";
+        public static string DefaultProfileImagePath = "~/Contents/Uploads/UserImages/OriginalImages/user_default_image.png";
+        public static string DefaultXSmallProfileImagePath = "~/Contents/Uploads/UserImages/XSmallImages/user_default_image.png";
+        public static string DefaultCruptedImagesProfileImagePath = "~/Contents/Uploads/UserImages/CruptedImages/user_default_image.png";
         public static string OriginalImageProfilePath = "~/Contents/Uploads/UserImages/OriginalImages/";
 
         public static List<string> UploadSingleImage(string serverPath, HttpPostedFileBase file, int saveAsParam)

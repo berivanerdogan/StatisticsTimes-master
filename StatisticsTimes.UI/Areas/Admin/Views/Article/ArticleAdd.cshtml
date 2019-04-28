@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "ArticleAdd";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayoutPage.cshtml";
+}
+
+@model StatisticsTimes.UI.Areas.Admin.Models.VM.ArticleVM
+
+
+<div class="content-wrapper" style="min-height: 946px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a href="/Admin/Home/Index"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/Admin/Article/ArticleList">Forms</a></li>
+            <li class="active">Article Add</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Article Add</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form action="/Admin/Article/ArticleAdd" method="post" enctype="multipart/form-data" role="form">
+                        <div class="box-body">
+
+                            <div class="form-group">
+                                <label for="CategoryID">Choose Category</label>
+                                <select class="form-control" name="CategoryID">
+                                    @foreach (var item in Model.Categories)
+                                    {
+                                        <option value="@item.ID">@item.CategoryName</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="AppUserID">Choose AppUser</label>
+                                <select class="form-control" name="AppUserID">
+                                    @foreach (var item in Model.AppUsers)
+                                    {
+                                        <option value="@item.ID">@item.FirstName @item.LastName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="text">Header</label>
+                                <input type="text" class="form-control" name="Header" placeholder="Header" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="text">Sub Title</label>
+                                <input type="text" class="form-control" name="SubTitle" placeholder="SubTitle" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="text">Content</label>
+                                <input type="text" class="form-control" name="Content" placeholder="Content" />
+                            </div>
+                            <div class="form-group">
+                                <label for="text">PublishDate</label>
+                                <input type="datetime" class="form-control" name="PublishDate" placeholder="PublishDate" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Image">Image</label>
+                                <input type="file" class="form-control" name="Image" value="" placeholder="Image" />
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+
+

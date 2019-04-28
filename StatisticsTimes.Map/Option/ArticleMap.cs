@@ -16,6 +16,7 @@ namespace StatisticsTimes.Map.Option
             Property(x => x.Content).IsRequired();
             Property(x => x.Header).IsRequired();
             Property(x => x.PublishDate).IsOptional();
+            Property(x => x.ImagePath).IsOptional();
 
             HasRequired(x => x.Category)
                 .WithMany(x => x.Articles)

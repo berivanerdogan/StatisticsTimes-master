@@ -1,10 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "AppUserList";
+    ViewBag.Title = "ArticleList";
     Layout = "~/Areas/Admin/Views/Shared/AdminLayoutPage.cshtml";
 }
 
-@model List<StatisticsTimes.Model.Option.AppUser>
+@model List<StatisticsTimes.Model.Option.Article>
 
 <link href="~/Contents/css/bootstrap.min.css" rel="stylesheet" />
 <script src="~/Contents/script/jquery.dataTables.min.js"></script>
@@ -12,8 +12,8 @@
 <section class="content-header">
     <ol class="breadcrumb">
         <li><a href="/Admin/Home/AdminHomeIndex"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="/Admin/AppUser/AppUserAdd">Add AppUser</a></li>
-        <li class="active">AppUser List</li>
+        <li><a href="/Admin/Article/Add">Add Article</a></li>
+        <li class="active">Article List</li>
     </ol>
 </section>
 <br />
@@ -22,22 +22,20 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">List of AppUsers</h3>
+                    <h3 class="box-title">List of Articles</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>User Name</th>
-                                <th>Password</th>
-                                <th>E-Mail</th>
-                                <th>Address</th>
-                                <th>PhoneNumber</th>
-                                <th>Role</th>
+                                <th>Header</th>
+                                <th>SubTitle</th>
+                                <th>Content</th>
+                                <th>Publish Date</th>
                                 <th>Image</th>
+                                <th>Category Name</th>
+                                <th>AppUser FullName</th>
                                 <th>Update</th>
                                 <th>Delete</th>
                             </tr>
@@ -45,21 +43,20 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>@item.FirstName</td>
-                                    <td>@item.LastName</td>
-                                    <td>@item.UserName</td>
-                                    <td>@item.Password</td>
-                                    <td>@item.Email</td>
-                                    <td>@item.Adress</td>
-                                    <td>@item.PhoneNumber</td>
-                                    <td>@item.Role</td>
-                                    <td><img src="@item.UserImage"style="display:block" width="30" height="30"/></td>
+                            <tr>
+                                <td>@item.Header</td>
+                                <td>@item.SubTitle</td>
+                                <td>@item.Content</td>
+                                <td>@item.PublishDate</td>
+                                <td><img src="@item.ImagePath" style="display:block" width="30" height="30"  /></td>
+                                <td>@item.Category.CategoryName</td>
+                                <td>@item.AppUser.FirstName @item.AppUser.LastName</td>
 
-                                    <td><a href="/Admin/AppUser/UpdateAppUser/@item.ID" type="button" class="btn btn-block btn-warning">Update</a></td>
-                                    <td><a href="/Admin/AppUser/Delete/@item.ID" type="button" class="btn btn-block btn-danger">Delete</a></td>
 
-                                </tr>
+                                <td><a href="/Admin/Article/UpdateArticle/@item.ID" type="button" class="btn btn-block btn-warning">Update</a></td>
+                                <td><a href="/Admin/Article/Delete/@item.ID" type="button" class="btn btn-block btn-danger">Delete</a></td>
+
+                            </tr>
                             }
                         </tbody>
                     </table>
@@ -81,7 +78,5 @@
         })
     })
 </script>
-
-
 
 

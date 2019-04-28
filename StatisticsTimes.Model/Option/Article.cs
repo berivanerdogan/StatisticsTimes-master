@@ -13,6 +13,7 @@ namespace StatisticsTimes.Model.Option
         public string SubTitle { get; set; }
         public string Content { get; set; }
         public DateTime? PublishDate { get; set; }
+        public string ImagePath { get; set; }
 
         public Guid CategoryID { get; set; }
         public virtual Category Category { get; set; }

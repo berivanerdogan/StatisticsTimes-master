@@ -123,10 +123,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AppUserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Models\DTO\AppUserDTO.cs" />
+    <Compile Include="Areas\Admin\Models\DTO\ArticleDTO.cs" />
     <Compile Include="Areas\Admin\Models\DTO\CategoryDTO.cs" />
+    <Compile Include="Areas\Admin\Models\VM\ArticleVM.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -157,6 +160,9 @@
     <Content Include="Areas\Admin\Views\Category\CategoryAdd.cshtml" />
     <Content Include="Areas\Admin\Views\Category\CategoryList.cshtml" />
     <Content Include="Areas\Admin\Views\Category\CategoryUpdate.cshtml" />
+    <Content Include="Areas\Admin\Views\Article\ArticleAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\Article\ArticleList.cshtml" />
+    <Content Include="Areas\Admin\Views\Article\UpdateArticle.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\LoginOut.cshtml" />
