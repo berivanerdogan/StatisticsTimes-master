@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "ArticleShow";
+    Layout = "~/Areas/Author/Views/Shared/AuthorLayoutPage.cshtml";
+}
+
+@model List<StatisticsTimes.Model.Option.Article>
+
+<link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Content/script/jquery.dataTables.min.js"></script>
+<script src="~/Content/script/dataTables.bootstrap.min.js"></script>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/Author/Home/AuthorHomeIndex"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Article Show</li>
+    </ol>
+</section>
+<br />
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Show of Articles</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Header</th>
+                                <th>SubTitle</th>
+                                <th>Content</th>
+                                <th>Image</th>
+                                <th>Publish Date</th>
+                                <th>Category Name</th>
+                                <th>AppUser FullName</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Header</td>
+                                    <td>@item.SubTitle</td>
+                                    <td>@item.Content</td>
+                                    <td><img src="@item.ImagePath" style="display:block" width="30" height="30" /></td>
+                                    <td>@item.PublishDate</td>
+                                    <td>@item.Category.CategoryName</td>
+                                    <td>@item.AppUser.FirstName @item.AppUser.LastName</td>
+
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(function () {
+        $('#example1').DataTable()
+        $('#example2').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
+        })
+    })
+</script>

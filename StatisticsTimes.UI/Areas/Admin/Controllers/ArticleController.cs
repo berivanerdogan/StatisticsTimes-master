@@ -76,7 +76,7 @@ namespace StatisticsTimes.UI.Areas.Admin.Controllers
             List<Category> Categories = _categoryService.GetActive();
             model.Categories = Categories;
 
-            List<AppUser> AppUsers = _appUserService.GetActive();
+            List<AppUser> AppUsers = _appUserService.GetDefault(x => (x.Role == StatisticsTimes.Model.Option.Role.Admin || x.Role == StatisticsTimes.Model.Option.Role.Author) && (x.Status == StatisticsTimes.Core.Enum.Status.Active || x.Status == StatisticsTimes.Core.Enum.Status.Active));
             model.AppUsers = AppUsers;
 
             return View(model);           
@@ -99,7 +99,7 @@ namespace StatisticsTimes.UI.Areas.Admin.Controllers
                 }
                 else
                 {
-                    update.ImagePath = update.ImagePath;
+                    update.ImagePath = model.ImagePath;
                 }
             }
             else

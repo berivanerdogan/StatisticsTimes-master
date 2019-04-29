@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "ArticleList";
+    Layout = "~/Areas/Author/Views/Shared/AuthorLayoutPage.cshtml";
+}
+
+@model List<StatisticsTimes.Model.Option.Article>
+
+<link href="~/Contents/css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Contents/script/jquery.dataTables.min.js"></script>
+<script src="~/Contents/script/dataTables.bootstrap.min.js"></script>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a href="/Author/Home/AdminHomeIndex"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="/Author/Article/Add">Add AppUser</a></li>
+        <li class="active">AppUser List</li>
+    </ol>
+</section>
+<br />
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">List of Articles</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Header</th>
+                                <th>SubTitle</th>
+                                <th>Content</th>
+                                <th>Publish Date</th>
+                                <th>Image</th>
+                                <th>Category Name</th>
+                                <th>AppUser FullName</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>@item.Header</td>
+                                <td>@item.SubTitle</td>
+                                <td>@item.Content</td>
+                                <td>@item.PublishDate</td>
+                                <td><img src="@item.ImagePath" style="display:block" width="30" height="30" /></td>
+                                <td>@item.Category.CategoryName</td>
+                                <td>@item.AppUser.FirstName @item.AppUser.LastName</td>
+                                <td><a href="/Author/Article/UpdateArticle/@item.ID" type="button" class="btn btn-block btn-warning">Update</a></td>
+                                <td><a href="/Author/Article/Delete/@item.ID" type="button" class="btn btn-block btn-danger">Delete</a></td>
+
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(function () {
+        $('#example1').DataTable()
+        $('#example2').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
+        })
+    })
+</script>
+
