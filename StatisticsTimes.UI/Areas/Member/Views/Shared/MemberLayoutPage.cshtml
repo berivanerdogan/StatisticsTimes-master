@@ -142,7 +142,6 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="@Session["UserImage"]" class="user-image" alt="User Image">
                                 <span class="hidden-xs">
-
                                     @if (User.Identity.IsAuthenticated)
                                     {
                                         @Session["FullName"]
@@ -235,14 +234,13 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/Author/Article/ArticleAdd"><i class="fa fa-plus-square-o"></i> Article Add</a></li>
-                            <li><a href="/Author/Article/ArticleList"><i class="fa fa-server"></i>Article List</a></li>
-                            <li><a href="/Author/Article/ArticleList"><i class="fa fa-book"></i>Article Update</a></li>
-                            <li><a href="/Author/Article/ArticleShow"><i class="fa fa-book"></i>Article Show</a></li>
-                            <li><a href="/Author/Article/ArticleList"><i class="fa fa-trash"></i>Article Delete</a></li>
+
+                            <li><a href="/Member/Home/ArticleList"><i class="fa fa-server"></i>Article List</a></li>
+                            <li><a href="/Member/Comment/AddComment"><i class="fa fa-server"></i>Article List</a></li>
+
+
                         </ul>
                     </li>
-
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -445,4 +443,3 @@
     <script src="~/Contents/script/demo.js"></script>
 </body>
 </html>
-

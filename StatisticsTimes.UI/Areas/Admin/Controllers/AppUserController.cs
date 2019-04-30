@@ -62,6 +62,7 @@ namespace StatisticsTimes.UI.Areas.Admin.Controllers
             model.LastName = user.LastName;
             model.UserName = user.UserName;
             model.Password = user.Password;
+            model.Email = user.Email;
             model.Adress = user.Adress;
             model.PhoneNumber = user.PhoneNumber;
             model.Role = user.Role;

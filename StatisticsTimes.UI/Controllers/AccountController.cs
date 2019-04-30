@@ -26,16 +26,22 @@ namespace StatisticsTimes.UI.Controllers
                 if (appUser.Role==StatisticsTimes.Model.Option.Role.Admin)
                 {
                     Session["FullName"] = appUser.FirstName + " " + appUser.LastName;
+                    Session["UserImage"] = appUser.UserImage;
+
                     return Redirect("/Admin/Home/AdminHomeIndex");
                 }
                 else if (appUser.Role == StatisticsTimes.Model.Option.Role.Author)
                 {
                     Session["FullName"] = appUser.FirstName + " " + appUser.LastName;
+                    Session["UserImage"] = appUser.UserImage;
+
                     return Redirect("/Author/Home/AuthorHomeIndex");
                 }
                 else if (appUser.Role == StatisticsTimes.Model.Option.Role.Member)
                 {
                     Session["FullName"] = appUser.FirstName + " " + appUser.LastName;
+                    Session["UserImage"] = appUser.UserImage;
+
                     return Redirect("/Member/Home/MemberHomeIndex");
                 }
             }
@@ -56,16 +62,21 @@ namespace StatisticsTimes.UI.Controllers
                     if (user.Role == StatisticsTimes.Model.Option.Role.Admin)
                     {
                         Session["FullName"] = user.FirstName + " " + user.LastName;
+                        Session["UserImage"] = user.UserImage;
                         return Redirect("/Admin/Home/AdminHomeIndex");
                     }
                     else if (user.Role == StatisticsTimes.Model.Option.Role.Author)
                     {
                         Session["FullName"] = user.FirstName + " " + user.LastName;
+                        Session["UserImage"] = user.UserImage;
+
                         return Redirect("/Author/Home/AuthorHomeIndex");
                     }
                     else if (user.Role == StatisticsTimes.Model.Option.Role.Member)
                     {
                         Session["FullName"] = user.FirstName + " " + user.LastName;
+                        Session["UserImage"] = user.ImagePath;
+
                         return Redirect("/Member/Home/MemberHomeIndex");
                     }
                 }
