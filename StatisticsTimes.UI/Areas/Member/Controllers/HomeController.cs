@@ -12,10 +12,14 @@ namespace StatisticsTimes.UI.Areas.Member.Controllers
     {
         ArticleService _articleService;
         AppUserService _appUserService;
+        CommentService _commentService;
+        LikeService _likeService;
         public HomeController()
         {
             _articleService = new ArticleService();
             _appUserService = new AppUserService();
+            _commentService = new CommentService();
+            _likeService = new LikeService();
         }
          
         public ActionResult MemberHomeIndex()

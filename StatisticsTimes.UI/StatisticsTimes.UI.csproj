@@ -137,7 +137,9 @@
     <Compile Include="Areas\Author\Models\VM\ArticleVM.cs" />
     <Compile Include="Areas\Member\Controllers\CommentController.cs" />
     <Compile Include="Areas\Member\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Member\Controllers\LikeController.cs" />
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
+    <Compile Include="Areas\Member\Models\VM\ArticleDetailVM.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -182,6 +184,7 @@
     <Content Include="Areas\Member\Views\Shared\MemberLayoutPage.cshtml" />
     <Content Include="Areas\Member\Views\Home\MemberHomeIndex.cshtml" />
     <Content Include="Areas\Member\Views\Home\ArticleList.cshtml" />
+    <Content Include="Areas\Member\Views\Comment\Show.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\LoginOut.cshtml" />
@@ -194,8 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Member\Models\" />
-    <Folder Include="Areas\Member\Views\Comment\" />
+    <Folder Include="Areas\Member\Views\Like\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
