@@ -73,25 +73,30 @@ namespace StatisticsTimes.UI.Areas.Member.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-       
-        public JsonResult Delete(string id)
+      
+        public JsonResult Delete(Guid id)
         {
-            Guid commentID = new Guid(id);
-            Comment comment= _commentService.GetDefault(x => x.ID == commentID).LastOrDefault();
-            //_commentService.Remove(comment);
-            bool isAdded = false;
-            try
-            {
-                _commentService.Remove(comment);
-                isAdded = true;
-            }
-            catch (Exception ex)
-            {
+            Guid userID = _appUserService.FindByUserName(HttpContext.User.Identity.Name).ID;
+            bool isDelete = false;
 
-                isAdded = false;
+
+            if (_commentService.Any(x => x.AppUserID == userID))
+            {
+                isDelete = true;
+                _commentService.Remove(id);
+                return Json(isDelete, JsonRequestBehavior.AllowGet);
             }
-            return Json(isAdded, JsonRequestBehavior.AllowGet);
+            else
+            {
+                isDelete = false;
+                return Json(isDelete, JsonRequestBehavior.AllowGet);
+            }
         }
-   
+
+        //public ActionResult Delete(Guid id)
+        //{
+        //    _commentService.Remove(id);
+        //    return Redirect("/Member/Comment/Show");
+        //}
     }
 }

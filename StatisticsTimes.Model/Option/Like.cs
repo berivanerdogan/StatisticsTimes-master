@@ -15,9 +15,5 @@ namespace StatisticsTimes.Model.Option
         public Guid ArticleID { get; set; }
         public virtual Article Article { get; set; }
 
-        public virtual List<Like> Likes { get; set; }
-
-        public virtual List<Comment> Comments { get; set; }
-
     }
 }

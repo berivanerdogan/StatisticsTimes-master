@@ -13,7 +13,7 @@ namespace StatisticsTimes.Map.Option
         public CommentMap()
         {
             ToTable("dbo.Comments");
-            Property(x => x.Content).IsRequired();
+            Property(x => x.Content).IsOptional();
 
             HasRequired(x => x.AppUser)
                 .WithMany(x => x.Comments)

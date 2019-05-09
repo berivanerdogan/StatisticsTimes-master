@@ -140,6 +140,7 @@
     <Compile Include="Areas\Member\Controllers\LikeController.cs" />
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
     <Compile Include="Areas\Member\Models\VM\ArticleDetailVM.cs" />
+    <Compile Include="Areas\Member\Models\VM\LikeVM.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -5,7 +5,6 @@
 }
 
 @model StatisticsTimes.UI.Areas.Member.Models.VM.ArticleDetailVM
-
 <section class="content">
     <div class="row">
         <div class="col-md-6">
@@ -22,7 +21,8 @@
                 <div class="box-body">
                     <img class="img-responsive pad" src="@Model.Article.ImagePath" alt="Photo">
                     <p>@Model.Article.Content</p>
-                    @if (@Model.Likes.Count == 0)
+
+                    @if ((Model.Article.Likes.Any(x => x.AppUser.UserName == User.Identity.Name)) == false)
                     {
                         string elementID = "message" + Model.Article.ID;
                         <button type="button" id="like" onclick="like('@Model.Article.ID')" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
@@ -36,25 +36,35 @@
                     <span class="pull-right text-muted">@Model.LikeCount likes - @Model.CommentCount comments</span>
                 </div>
                 <!-- /.box-body -->
+
                 <div class="box-footer box-comments" id="dynamiccomment">
+
                     @foreach (var item in Model.Comments)
                     {
                         <div class="box-comment">
                             <!-- User image -->
                             <img class="img-circle img-sm" src="@item.AppUser.UserImage" alt="User Image">
                             <div class="comment-text">
-                                <span class="username">
+                                <span class="username" >
                                     @item.AppUser.FirstName @item.AppUser.LastName
-                                    <span class="text-muted pull-right">@item.CreatedDate</span>
-                                </span><!-- /.username -->
-                                @item.Content
+                                    <span class="text-muted pull-right"  id="#a_@item.ID">
+                                        @item.CreatedDate
 
-                                <span>
-                                <a href="#" type="button" class="Delete" data-Commentid="@item.ID">
-                                    <br />
-                                    <i class=" btn btn-danger fa fa-trash-o"></i>
-                                </a>
+                                        <a href="/Member/Comment/Delete" type="button" class="Delete" @*data-Comment*@ id="#a_@item.ID">
+                                            <br />
+                                            <i class=" btn btn-danger fa fa-trash-o"></i>
+                                        </a>
+                                    </span>
+                                </span><!-- /.username -->
+                                <span >
+                                    @item.Content
                                 </span>
+                                
+
+                                @*<span>
+
+                                        <a href="/Member/Comment/Delete/@item.ID" type="button" class="btn btn-block btn-danger">Delete</a>
+                                    </span>*@
 
                             </div>
                             <!-- /.comment-text -->
@@ -80,8 +90,42 @@
 </section>
 
 
-
 <script>
+    function Delete(id) {
+        $.ajax({          
+            url: "/Member/Comment/Delete" + id,
+            //data:id,
+            type: "POST",            
+            success: function (result) {
+                $("#a_" + id).fadeOut();
+            }
+        });
+    }
+</script>
+<script>
+
+        function like(id) {
+        $.ajax({
+                    type: "POST",
+                    dataType: "Json",
+                    url: "@Url.Action("AddLike","Like")/" + id,
+                    success: function (data) {
+                        if (data.isSuccess == true) {
+                            $("#message" + id).removeAttr("style");
+                            $("#like").remove();
+                            $("#message" + id).html("");
+                            $("#message" + id).append(data.userMessage);
+                        }
+                        else {
+                            $("#message" + id).removeAttr("style");
+                            $("#like").remove();
+                            $("#message" + id).html("");
+                            $("#message" + id).append(data.userMessage);
+                        }
+                    }
+                })
+        }
+
         function comment(articleID) {
             console.log(articleID);
             var commentText = $("#comment").val();
@@ -94,7 +138,7 @@
                         if (data == true) {
                             $("#message").removeAttr("style");
                             $("#message").html("");
-                            $("#message").append("Have Comments.").fadeIn(2000);                        
+                            $("#message").append("Have Comments.").fadeIn(2000);
                             // Commentlerin hepsini silip tekrar listelemeyle geri çekmek gerekiyor.
                             commentdynamiclist(articleID);
                         }
@@ -120,7 +164,7 @@
                         $("#message").fadeOut(2000);
                         $("#lastcomment").hide().fadeIn(2000);
 
-                     
+
 
                     }
                     else {

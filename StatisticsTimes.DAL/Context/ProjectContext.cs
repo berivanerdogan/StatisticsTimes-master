@@ -1,5 +1,6 @@
 ﻿using StatisticsTimes.Core.Entity;
 using StatisticsTimes.Map.Option;
+using StatisticsTimes.Model.Option;
 using StatisticsTimes.Utility;
 
 using System;
@@ -17,7 +18,7 @@ namespace StatisticsTimes.DAL.Context
     {
         public ProjectContext()
         {
-            Database.Connection.ConnectionString = "Server=.;Database=StatisticsTimes;UID=berivan;PWD=1234;";
+            Database.Connection.ConnectionString = "Server=.;Database=statistics;UID=berivan;PWD=1234;";
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -26,11 +27,17 @@ namespace StatisticsTimes.DAL.Context
             modelBuilder.Configurations.Add(new CategoryMap());
             modelBuilder.Configurations.Add(new ArticleMap());
             modelBuilder.Configurations.Add(new CommentMap());
-
+            modelBuilder.Configurations.Add(new LikeMap());
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             base.OnModelCreating(modelBuilder);
         }
+        public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Like> Likes { get; set; }
+
 
         public override int SaveChanges()
         {
