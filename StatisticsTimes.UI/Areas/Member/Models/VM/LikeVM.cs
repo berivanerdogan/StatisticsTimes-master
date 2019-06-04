@@ -10,5 +10,6 @@ namespace StatisticsTimes.UI.Areas.Member.Models.VM
         public string userMessage { get; set; }
         public int Likes { get; set; }
         public bool isSuccess { get; set; }
+        public int Comments { get; set; }
     }
 }

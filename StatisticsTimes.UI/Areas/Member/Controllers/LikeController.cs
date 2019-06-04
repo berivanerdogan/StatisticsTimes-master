@@ -15,11 +15,12 @@ namespace StatisticsTimes.UI.Areas.Member.Controllers
 
         AppUserService _appUserService;
         LikeService _likeService;
+        CommentService _commentService;
         public LikeController()
         {
             _appUserService = new AppUserService();
             _likeService=new LikeService();
-
+            _commentService = new CommentService();
         }
 
         public ActionResult Index()
@@ -29,27 +30,31 @@ namespace StatisticsTimes.UI.Areas.Member.Controllers
         public JsonResult AddLike(Guid id)
         {
             LikeVM likeVM = new LikeVM();
-            Guid appUserID = _appUserService.FindByUserName(HttpContext.User.Identity.Name).ID;
+            Guid appuserID = _appUserService.FindByUserName(HttpContext.User.Identity.Name).ID;
 
-            if (!(_likeService.Any(x => x.AppUserID == appUserID && x.ArticleID == id)))
+            if (!(_likeService.Any(x => x.AppUserID == appuserID && x.ArticleID == id)))
             {
                 Like like = new Like();
                 like.ArticleID = id;
-                like.AppUserID = appUserID;
+                like.AppUserID = appuserID;
                 _likeService.Add(like);
 
+                //Kullanıcıya gönderilecek mesaj oluşturulur.
 
                 likeVM.Likes = _likeService.GetDefault(x => x.ArticleID == id).Count();
-                likeVM.userMessage = "";
+                likeVM.userMessage = "likes it";
                 likeVM.isSuccess = true;
+                likeVM.Likes = _likeService.GetDefault(x => x.ArticleID == id && (x.Status == Core.Enum.Status.Active || x.Status == Core.Enum.Status.Updated)).Count();
+                likeVM.Comments = _commentService.GetDefault(x => x.ArticleID == id && (x.Status == Core.Enum.Status.Active || x.Status == Core.Enum.Status.Updated)).Count();
+                return Json(likeVM, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                likeVM.isSuccess = false;
+                likeVM.userMessage = "You've liked this article before!";
 
                 return Json(likeVM, JsonRequestBehavior.AllowGet);
             }
-            likeVM.isSuccess = false;
-            likeVM.userMessage = "Bu yazıyı daha önce beğendiniz!";
-            likeVM.Likes = _likeService.GetDefault(x => x.ArticleID == id).Count();
-            return Json(likeVM, JsonRequestBehavior.AllowGet);
-
         }
     }
 }

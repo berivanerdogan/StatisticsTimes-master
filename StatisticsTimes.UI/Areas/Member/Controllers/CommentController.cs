@@ -29,10 +29,10 @@ namespace StatisticsTimes.UI.Areas.Member.Controllers
             ArticleDetailVM model = new ArticleDetailVM();
             model.Article = _articleService.GetByID(id);
             model.AppUser = _appUserService.GetByID(model.Article.AppUser.ID);
-            model.Comments = _commentService.GetDefault(x => x.ArticleID == id);
+            model.Comments = _commentService.GetDefault(x => x.ArticleID == id &&(x.Status==Core.Enum.Status.Active|| x.Status == Core.Enum.Status.Updated));
             model.Likes = _likeService.GetDefault(x => x.ArticleID == id);
-            model.CommentCount = _commentService.GetDefault(x => x.ArticleID == id).Count();
-            model.LikeCount = _likeService.GetDefault(x => x.ArticleID == id).Count();
+            model.CommentCount = _commentService.GetDefault(x => x.ArticleID == id && (x.Status == Core.Enum.Status.Active || x.Status == Core.Enum.Status.Updated)).Count();
+            model.LikeCount = _likeService.GetDefault(x => x.ArticleID == id && (x.Status == Core.Enum.Status.Active || x.Status == Core.Enum.Status.Updated)).Count();
             return View(model);
         }
 
@@ -69,7 +69,9 @@ namespace StatisticsTimes.UI.Areas.Member.Controllers
                 FirstName = comment.AppUser.FirstName,
                 LastName = comment.AppUser.LastName,
                 CreatedDate = comment.CreatedDate.ToString(),
-                Content = comment.Content
+                Content = comment.Content,
+                CommentCount = _commentService.GetDefault(x => x.ArticleID == articleID && (x.Status == Core.Enum.Status.Active || x.Status == Core.Enum.Status.Updated)).Count(),
+                LikeCount = _likeService.GetDefault(x => x.ArticleID == articleID && (x.Status == Core.Enum.Status.Active || x.Status == Core.Enum.Status.Updated)).Count(),
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -77,10 +79,11 @@ namespace StatisticsTimes.UI.Areas.Member.Controllers
         public JsonResult Delete(Guid id)
         {
             Guid userID = _appUserService.FindByUserName(HttpContext.User.Identity.Name).ID;
+            Comment comment = _commentService.GetByID(id);
             bool isDelete = false;
 
 
-            if (_commentService.Any(x => x.AppUserID == userID))
+            if (comment.AppUserID == userID)
             {
                 isDelete = true;
                 _commentService.Remove(id);

@@ -1,5 +1,6 @@
 ﻿using StatisticsTimes.Model.Option;
 using StatisticsTimes.Service.Option;
+using StatisticsTimes.UI.Areas.Member.Models.VM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,17 +25,19 @@ namespace StatisticsTimes.UI.Areas.Member.Controllers
          
         public ActionResult MemberHomeIndex()
         {
-            TempData["class"] = "custom-hide";
-            var model = _articleService.GetActive().OrderBy(x => x.CreatedDate).Take(5);
-            if (!HttpContext.User.Identity.IsAuthenticated)
+
+            ArticleDetailVM model = new ArticleDetailVM();
+
+            model.Articles = _articleService.GetActive();
+
+            foreach (var item in model.Articles)
             {
-                return View(model);
+                model.Comments = _commentService.GetDefault(x => x.ArticleID == item.ID).OrderByDescending(x => x.CreatedDate).Take(10).ToList();
+
+                model.LikeCount = _likeService.GetDefault(x => x.ArticleID == item.ID).Count();
+                model.CommentCount = _commentService.GetDefault(x => x.ArticleID == item.ID).Count();
             }
-            AppUser user = _appUserService.FindByUserName(HttpContext.User.Identity.Name);
-            if (user.Role==StatisticsTimes.Model.Option.Role.Member)
-            {
-                TempData["class"] = "custom-show";
-            }
+
             return View(model);
         }
 

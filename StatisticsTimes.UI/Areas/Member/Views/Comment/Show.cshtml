@@ -3,69 +3,59 @@
     ViewBag.Title = "Show";
     Layout = "~/Areas/Member/Views/Shared/MemberLayoutPage.cshtml";
 }
-
 @model StatisticsTimes.UI.Areas.Member.Models.VM.ArticleDetailVM
+<br />
+
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-10">
             <!-- Box Comment -->
             <div class="box box-widget">
                 <div class="box-header with-border">
                     <div class="user-block">
                         <img class="img-circle" src="@Model.AppUser.UserImage" alt="User Image">
                         <span class="username"><a href="#">@Model.AppUser.FirstName @Model.AppUser.LastName</a></span>
-                        <span class="description">@Model.Article.Header</span>
+                        <span class="description">@Model.Article.Header @Model.Article.CreatedDate</span>
+                        <a href="~/Areas/Member/Views/Comment/Show.cshtml"></a>
                     </div>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body" id="articlelist">
                     <img class="img-responsive pad" src="@Model.Article.ImagePath" alt="Photo">
                     <p>@Model.Article.Content</p>
 
-                    @if ((Model.Article.Likes.Any(x => x.AppUser.UserName == User.Identity.Name)) == false)
+                    @if (!(Model.Article.Likes.Any(x => x.AppUser.UserName == User.Identity.Name)))
                     {
                         string elementID = "message" + Model.Article.ID;
                         <button type="button" id="like" onclick="like('@Model.Article.ID')" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
                         <span id="@elementID" style="display:none">Like you</span>
-                    }
-                    else
-                    {
-                        <label>Like you.</label>
-                    }
 
-                    <span class="pull-right text-muted">@Model.LikeCount likes - @Model.CommentCount comments</span>
+                    }
+                 
+                    <span class="pull-right text-muted" id="commentcount">@Model.LikeCount likes  @Model.CommentCount comments</span>
                 </div>
                 <!-- /.box-body -->
-
                 <div class="box-footer box-comments" id="dynamiccomment">
-
                     @foreach (var item in Model.Comments)
                     {
-                        <div class="box-comment">
+                        <div class="box-comment" id="a_@item.ID">
                             <!-- User image -->
                             <img class="img-circle img-sm" src="@item.AppUser.UserImage" alt="User Image">
                             <div class="comment-text">
-                                <span class="username" >
+                                <span class="username">
                                     @item.AppUser.FirstName @item.AppUser.LastName
-                                    <span class="text-muted pull-right"  id="#a_@item.ID">
+                                    <span class="text-muted pull-right">
                                         @item.CreatedDate
+                                        <br />
+                                        @if (item.AppUser.UserName == User.Identity.Name)
+                                        {
 
-                                        <a href="/Member/Comment/Delete" type="button" class="Delete" @*data-Comment*@ id="#a_@item.ID">
-                                            <br />
-                                            <i class=" btn btn-danger fa fa-trash-o"></i>
-                                        </a>
+                                         <a href="#" id="commentdelete" type="button" onclick="commentdelete('@item.ID')" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                                   
+                                        }
                                     </span>
                                 </span><!-- /.username -->
-                                <span >
-                                    @item.Content
-                                </span>
-                                
-
-                                @*<span>
-
-                                        <a href="/Member/Comment/Delete/@item.ID" type="button" class="btn btn-block btn-danger">Delete</a>
-                                    </span>*@
-
+                                @item.Content
                             </div>
                             <!-- /.comment-text -->
                         </div>
@@ -73,11 +63,11 @@
                 </div>
                 <!-- /.box-footer -->
                 <div class="box-footer">
-                    <img class="img-responsive img-circle img-sm" src="@Session["UserImage"]" alt="Alt Text">
+                    <img class="img-responsive img-circle img-sm" src="@Session["ImagePath"]" alt="Alt Text">
                     <!-- .img-push is used to add margin to elements next to floating images -->
                     <div class="img-push">
                         <input type="text" id="comment" class="form-control input-sm" placeholder="Press enter to post comment">
-                        <button type="button" id="addComment" onclick="comment('@Model.Article.ID')" class="btn btn-default btn-xs"><i class="fa  fa-commenting-o"></i>Comments</button>
+                        <button type="button" id="addComment" onclick="comment('@Model.Article.ID')" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i>Comments</button>
                         <span id="message" style="display:none">Have Comments</span>
                     </div>
                     <br />
@@ -89,20 +79,20 @@
     </div>
 </section>
 
+<script src="~/Content/Scripts/jquery.min.js"></script>
 
 <script>
-    function Delete(id) {
-        $.ajax({          
-            url: "/Member/Comment/Delete" + id,
-            //data:id,
-            type: "POST",            
-            success: function (result) {
+    function commentdelete(id) {
+        $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete","Comment")/" + id,
+            success: function (data) {
+
                 $("#a_" + id).fadeOut();
-            }
-        });
-    }
-</script>
-<script>
+
+                    }
+                })
+        }
 
         function like(id) {
         $.ajax({
@@ -110,14 +100,16 @@
                     dataType: "Json",
                     url: "@Url.Action("AddLike","Like")/" + id,
                     success: function (data) {
-                        if (data.isSuccess == true) {
-                            $("#message" + id).removeAttr("style");
+                if (data.isSuccess == true) {
+                            $("#message" + id).removeAttr("");
                             $("#like").remove();
                             $("#message" + id).html("");
                             $("#message" + id).append(data.userMessage);
+                    $("#commentcount").hide().fadeOut(2000);
+                    $("#articlelist").append("<span class='pull-right text-muted' id='commentcount'>" + data.Likes + " likes  " + data.Comments + " comments</span>");
                         }
                         else {
-                            $("#message" + id).removeAttr("style");
+                            $("#message" + id).removeAttr("");
                             $("#like").remove();
                             $("#message" + id).html("");
                             $("#message" + id).append(data.userMessage);
@@ -125,11 +117,10 @@
                     }
                 })
         }
-
         function comment(articleID) {
             console.log(articleID);
             var commentText = $("#comment").val();
-        $.ajax({
+            $.ajax({
                     type: "POST",
                     dataType: "Json",
                     data: { userComment: commentText, id: articleID },
@@ -154,22 +145,20 @@
             $.ajax({
                 type: "POST",
                 dataType: "Json",
-                url: "@Url.Action("GetAtricleComment", "Comment")/" + id,
+                url: "@Url.Action("GetArticleComment", "Comment")/" + id,
                 success: function (data) {
-
                     if (data != null) {
                         //console.log(data.FirstName);
-                        $("#dynamiccomment").append("<div class='box-comment' id='lastcomment'><!-- User image --><img class='img-circle img-sm' src='" + data.AppUserImagePath + "' alt='User Image'><div class='comment-text'><span class='username'>" + data.FirstName + " " + data.LastName + "<span class='text-muted pull-right'>" + data.CreatedDate + "</span></span><!-- /.username -->" + data.Content + "</div></div>");
+                        $("#dynamiccomment").append("<div class='box-comment' id='lastcomment'><!-- User image --><img class='img-circle img-sm' src='" + data.AppUserImagePath + "' alt='User Image'><div class='comment-text'><span class='username'>" + data.FirstName + " " + data.LastName + "<span class='text-muted pull-right'>" + data.CreatedDate + "<br /><a href='' id='commentdelete' type='button' class='btn btn-default btn-xs'><i class='fa fa-trash-o'></i></a><button type='button' id='edit' class='btn btn-default btn-xs'><i class='fa fa-edit'></i></button></span></span><!-- /.username -->" + data.Content + "</div></div>");
+                        $("#commentcount").hide().fadeOut(2000);
+                        $("#articlelist").append("<span class='pull-right text-muted' id='commentcount'>"+data.LikeCount+" likes  "+data.CommentCount+" comments</span>");
                         $("#comment").val("");
                         $("#message").fadeOut(2000);
                         $("#lastcomment").hide().fadeIn(2000);
-
-
-
                     }
                     else {
                     }
                 }
             })
-        }
+    }
 </script>

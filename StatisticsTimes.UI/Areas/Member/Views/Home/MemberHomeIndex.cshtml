@@ -4,14 +4,68 @@
     Layout = "~/Areas/Member/Views/Shared/MemberLayoutPage.cshtml";
 }
 
-@model IEnumerable<StatisticsTimes.Model.Option.Article>
+@model  StatisticsTimes.UI.Areas.Member.Models.VM.ArticleDetailVM
 
 <section class="content">
     <div class="row">
+        <div class="col-md-3">
+            <div class="box box-widget widget-user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-aqua-active">
+
+                    <h3 class="widget-user-username">@Session["FullName"]</h3>
+                    @*<h5 class="widget-user-desc">@Session["Bio"]</h5>*@
+                </div>
+                <div class="widget-user-image">
+                    <img class="img-circle" src="@Session["UserImage"]" alt="User Avatar">
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-10 border-right">
+                            <div class="description-block">
+                                <span class="description-text">Profile</span>
+                                <div class="description-block border-right">
+                                    <a href="/Member/Profile/EditProfile/@Model.AppUser.ID" type="button" class="btn btn-default btn-flat">Edit Profile</a>
+                                </div>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-10 border-right">
+                            <div class="description-block">
+                                @*<h5 class="description-header">@Model.AppUser.Follow</h5>*@
+                                <span class="description-text">Following</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-10">
+                            <div class="description-block">
+                                @*<h5 class="description-header">@Model.AppUser.Follower</h5>*@
+                                <span class="description-text">Followers</span>
+                            </div>
+                            <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="description-block">                       
+                            <span class="description-text">Click to log out</span>
+                            <div class="clearfix">
+                                <a class="btn btn-xs float-right" href="/Account/LoginOut">Sign Out... &rarr;</a>
+                            </div>
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+        </div>
         <!-- /.col -->
         <div class="col-md-8">
             <!-- Box Comment -->
-            @foreach (var item in Model)
+            @foreach (var item in Model.Articles)
             {
                 <div class="box box-widget">
                     <div class="box-header with-border">
@@ -28,17 +82,22 @@
                     <div class="box-content">
                         @if (item.Content.Length >= 300)
                         {
-                            @item.Content.Substring(0, 300);
-                            <span><a href="/Member/Comment/Show/@item.ID">Read More...</a></span>
+                            @item.Content.Substring(0, 300) <a href="#">...</a>
+
+                            <div class="clearfix">
+                                <a class="btn btn-xs float-right" href="/Member/Comment/Show/@item.ID">Read More... &rarr;</a>
+                            </div>
                         }
                         else
                         {
-                            @item.Content;
-                            <span><a href="/Member/Comment/Show/@item.ID">Read More...</a></span>
+                            @item.Content <a href="#">...</a>;
+
+                            <div class="clearfix">
+                                <a class="btn btn-xs float-right" href="/Member/Comment/Show/@item.ID">Read More... &rarr;</a>
+                            </div>
                         }
                     </div>
                 </div>
-
             }
             <!-- /.box -->
         </div>
